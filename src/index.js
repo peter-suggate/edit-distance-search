@@ -13,16 +13,19 @@
  *  editDistanceForClosestMatch('lphabet', 'alphabet')
  *
  * @param {string} text The text to search within.
- * @param {string} candidate The text to approximate-search for.
+ * @param {string} pattern The text to approximate-search for.
  *
  * @returns the minimum edit distance for any approximate (or exact in which
  * case this will be 0) match.
  */
-function editDistanceForClosestMatch(text, candidate) {
-  const M = text.length;
-  const N = candidate.length;
+function editDistanceForClosestMatch(textIn, pattern) {
+  if (!textIn || !pattern) return 0;
 
-  if (!M || !N) return 0;
+  // Allow pattern to be longer than text.
+  let text = textIn.padEnd(pattern.length);
+
+  const M = pattern.length + 1;
+  const N = text.length + 1;
 
   // Initialize a 2d grid that holds edit distance values for any prefix of text
   // vs any prefix of candidate.
@@ -30,18 +33,19 @@ function editDistanceForClosestMatch(text, candidate) {
   for (let m = 0; m < M; m++) {
     grid[m] = new Array(N);
 
-    // Initialize top row with zeroes.
-    grid[m][0] = 0;
+    // Initialize first column with ascending integers.
+    grid[m][0] = m;
   }
 
-  // Initialize first column with ascending integers.
+  // Initialize top row with zeroes.
   for (let n = 0; n < N; n++) {
-    grid[0][n] = n;
+    grid[0][n] = 0;
   }
 
-  for (let n = 1; n < N; n++) {
-    for (let m = 1; m < M; m++) {
-      const curCellDist = text[m] === candidate[n] ? 0 : 1;
+  // Populate the grid.
+  for (let m = 1; m < M; m++) {
+    for (let n = 1; n < N; n++) {
+      const curCellDist = text[n - 1] === pattern[m - 1] ? 0 : 1;
 
       const aboveLeftDistance = grid[m - 1][n - 1] + curCellDist;
       const leftDistance = grid[m - 1][n] + 1;
@@ -54,7 +58,17 @@ function editDistanceForClosestMatch(text, candidate) {
     }
   }
 
-  return grid[M - 1][N - 1];
+  // For debugging.
+  // for (let n = 0; n < M; n++) {
+  //   let row = "";
+  //   for (let m = 0; m < N; m++) {
+  //     row += grid[n][m] + ", ";
+  //   }
+  //   console.log(row);
+  // }
+
+  // Minimum edit distance is found on the bottom row.
+  return Math.min(...grid[M - 1]);
 }
 
 module.exports = {
