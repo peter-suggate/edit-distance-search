@@ -12,12 +12,9 @@
   },
   "keywords": [
     "Levenshtein",
-    "edit",
-    "distance",
-    "approximate",
-    "string",
-    "match",
-    "search"
+    "edit distance",
+    "approximate string match",
+    "fuzzy search"
   ],
   "author": "Peter Suggate",
   "license": "MIT",
