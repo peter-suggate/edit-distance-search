@@ -2,6 +2,8 @@
  * Very basic tests using no dependencies.
  */
 
+const { editDistanceBacktrack } = require("../src");
+
 const editDistanceForClosestMatch = require("../src/index")
   .editDistanceForClosestMatch;
 
@@ -39,5 +41,24 @@ assert(
   editDistanceForClosestMatch("TATTGGCTATACGGTT", "GCGTATGC") === 2,
   "example from https://www.youtube.com/watch?v=NjfNZzJiu8o"
 );
+
+function editDistanceWithAlignment(text, pattern) {
+  const info = { grid: undefined };
+  const dist = editDistanceForClosestMatch(text, pattern, info);
+  console.log(editDistanceBacktrack(text, pattern, dist, info.grid));
+}
+
+/**
+ * It's time to pull jest in so we can easily perform asserts with deep object comparisons..
+ */
+
+// Backtracking algorithm tests
+editDistanceWithAlignment("roar", "rr");
+editDistanceWithAlignment("betabet", "alphabet");
+editDistanceWithAlignment("alphabet", "alphabet");
+editDistanceWithAlignment("alphabet", "");
+editDistanceWithAlignment("", "alphabet");
+editDistanceWithAlignment("a", "abc");
+editDistanceWithAlignment("TATTGGCTATACGGTT", "GCGTATGC");
 
 console.log("All tests passed.");
