@@ -12,8 +12,8 @@
  *  // Near match: one delete required, returns 1.
  *  editDistanceForClosestMatch('lphabet', 'alphabet')
  *
- * @param {string} text The text to search within.
- * @param {string} pattern The text to approximate-search for.
+ * @param {string or []} text The text to search within.
+ * @param {string or []} pattern The text to approximate-search for.
  * @param optional memoization of the grid that holds state created for the
  * edit distance algorithm. Can be used to perform next steps, for example,
  * a trace back algorithm.
@@ -29,7 +29,8 @@ function editDistanceForClosestMatch(
   if (!textIn || !pattern) return 0;
 
   // Allow pattern to be longer than text.
-  let text = textIn.padEnd(pattern.length);
+  let text =
+    typeof textIn === "string" ? textIn.padEnd(pattern.length) : textIn;
 
   const M = pattern.length + 1;
   const N = text.length + 1;
@@ -86,10 +87,10 @@ function editDistanceForClosestMatch(
  *
  * This is a linear time algorithm which simply traces back through the grid.
  *
- * @param {string} text The text that was searched within.
- * @param {string} pattern The text that was approximate-searched for.
+ * @param {string or []} text The text that was searched within.
+ * @param {string or []} pattern The text that was approximate-searched for.
  * @param {number} distance The distance returned from editDistanceForClosestMatch
- * @param {[][]} grid The edit distance grid obtained from editDistanceForClosestMatch
+ * @param {number[][]} grid The edit distance grid obtained from editDistanceForClosestMatch
  */
 function editDistanceBacktrack(text, pattern, distance, grid) {
   if (!text || !pattern || !grid)
@@ -125,7 +126,7 @@ function editDistanceBacktrack(text, pattern, distance, grid) {
     const t = text[c - 1];
     const exactMatch = p === t;
 
-    if (!t) {
+    if (t === undefined) {
       // Handle text being shorter than pattern.
       --c;
     } else if (exactMatch) {
