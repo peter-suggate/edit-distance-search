@@ -12,13 +12,13 @@
  *  // Near match: one delete required, returns 1.
  *  editDistanceForClosestMatch('lphabet', 'alphabet')
  *
- * @param {string or []} text The text to search within.
- * @param {string or []} pattern The text to approximate-search for.
+ * @param {string | number[]} text The text to search within.
+ * @param {string | number[]} pattern The text to approximate-search for.
  * @param optional memoization of the grid that holds state created for the
  * edit distance algorithm. Can be used to perform next steps, for example,
  * a trace back algorithm.
  *
- * @returns the minimum edit distance for any approximate (or exact in which
+ * @returns {number} the minimum edit distance for any approximate (or exact in which
  * case this will be 0) match.
  */
 function editDistanceForClosestMatch(

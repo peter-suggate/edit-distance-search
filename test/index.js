@@ -61,5 +61,6 @@ editDistanceWithAlignment("", "alphabet");
 editDistanceWithAlignment("a", "abc");
 editDistanceWithAlignment("TATTGGCTATACGGTT", "GCGTATGC");
 editDistanceWithAlignment([0, 1, 2, 3], [0, 1, 2, 3]);
+editDistanceWithAlignment([0, 1, 2, 3, 4, 5, 6, 7], [1, 2, 3, 6, 7, 8]);
 
 console.log("All tests passed.");
